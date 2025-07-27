@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Join Transaction | BRUY</title>
+  <link rel="stylesheet" href="user-style.css" />
+  <style>
+    .main {
+      margin-left: 260px;
+      padding: 50px;
+    }
+
+    .join-box {
+      background-color: white;
+      padding: 30px;
+      max-width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    .join-box h2 {
+      margin-bottom: 20px;
+    }
+
+    .join-box input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .join-box button {
+      width: 100%;
+      background-color: #0c1f45;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .join-box button:hover {
+      background-color: #00bcd4;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo"><img src="logo.png" alt="BRUY Logo" /></div>
+    <ul>
+      <li><a href="buyer-dashboard.html">Dashboard</a></li>
+      <li class="active"><a href="buyer-join-transaction.html">Join Transaction</a></li>
+      <li><a href="buyer-my-transactions.html">My Transactions</a></li>
+      <li><a href="buyer-disputes.html">Disputes</a></li>
+      <li><a href="buyer-profile.html">Profile</a></li>
+      <li><a href="choose-role.html">Logout</a></li>
+    </ul>
+  </div>
+
+  <div class="main fade-in">
+    <div class="join-box">
+      <h2>Join a Transaction</h2>
+      <p>Paste the code given by the seller to view the transaction.</p>
+      <input type="text" id="txnCode" placeholder="Enter Transaction Code" required>
+      <button onclick="joinTransaction()">Join</button>
+    </div>
+  </div>
+
+  <script>
+    function joinTransaction() {
+      const code = document.getElementById("txnCode").value.trim();
+      if (code === "") {
+        alert("Please enter a transaction code.");
+        return;
+      }
+      window.location.href = "transaction-status.php?code=" + encodeURIComponent(code);
+    }
+  </script>
+</body>
+</html>

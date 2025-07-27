@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product Created | BRUY</title>
+  <link rel="stylesheet" href="user-style.css" />
+  <style>
+    .center-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: white;
+      flex-direction: column;
+    }
+
+    .checkmark {
+      font-size: 80px;
+      color: #0c1f45;
+      margin-bottom: 20px;
+    }
+
+    .done-btn {
+      background-color: #0c1f45;
+      color: #fff;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .done-btn:hover {
+      background-color: #00bcd4;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="center-container fade-in">
+    <div class="checkmark">✔️</div>
+    <h2>Generate Successful!</h2>
+    <br />
+    <button class="done-btn" onclick="window.location.href='transaction-status.html'">DONE</button>
+  </div>
+</body>
+</html>

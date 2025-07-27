@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Seller Dashboard | BRUY</title>
+  <link rel="stylesheet" href="user-style.css" />
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <img src="logo.png" alt="BRUY Logo" />
+    </div>
+    <ul>
+  <li class="active"><a href="seller-dashboard.html">Dashboard</a></li>
+  <li><a href="seller-create-product.html">Create Product</a></li>
+  <li><a href="seller-my-transactions.html">My Transactions</a></li>
+  <li><a href="seller-disputes.html">Disputes</a></li>
+  <li><a href="seller-profile.html">Profile</a></li>
+  <li><a href="choose-role.html">Logout</a></li>
+</ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <h1>Welcome Seller</h1>
+    <p>Start a new transaction or manage your product listings.</p>
+    <div style="text-align: right; margin-bottom: 20px;">
+  <a href="buyer-dashboard.html" class="switch-role-btn">Switch to Buyer</a>
+</div>
+    <div class="card clickable-card" onclick="location.href='seller-create-product.html'">
+  <h3>Start Selling</h3>
+  <p>Click here to create a new transaction and share it with the buyer.</p>
+</div>
+  </div>
+
+</body>
+</html>
+

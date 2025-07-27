@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Transaction Status | BRUY</title>
+  <link rel="stylesheet" href="user-style.css" />
+  <style>
+    .status-container {
+      margin-left: 260px;
+      padding: 40px;
+    }
+    .transaction-box {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+    }
+    .copy-section {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .copy-section input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .copy-section button {
+      background-color: #0c1f45;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .copy-section button:hover {
+      background-color: #00bcd4;
+    }
+    .product-details p {
+      margin-bottom: 8px;
+    }
+    .delete-btn {
+      margin-top: 20px;
+      background-color: #ff4d4d;
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .delete-btn:hover {
+      background-color: #e60000;
+    }
+    .product-image {
+      width: 150px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo"><img src="logo.png" alt="BRUY Logo" /></div>
+    <ul>
+      <li><a href="seller-dashboard.html">Dashboard</a></li>
+      <li class="active"><a href="seller-create-product.html">Create Product</a></li>
+      <li><a href="seller-my-transactions.html">My Transactions</a></li>
+      <li><a href="seller-disputes.html">Disputes</a></li>
+      <li><a href="seller-profile.html">Profile</a></li>
+      <li><a href="choose-role.html">Logout</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="status-container fade-in">
+    <div class="transaction-box">
+      <img src="images/sample-product.jpg" class="product-image" alt="Product Image" />
+      <h2>Transaction Status</h2>
+      <p>Transaction has been created. Share this link with your buyer.</p>
+
+      <div class="copy-section">
+        <input type="text" value="https://bruy.com/txn-id=kasut-larian" id="txn-link" readonly>
+        <button onclick="navigator.clipboard.writeText(document.getElementById('txn-link').value)">Copy Link</button>
+      </div>
+
+      <div class="product-details">
+        <p><strong>Product Name:</strong> Kasut Larian</p>
+        <p><strong>Type:</strong> Physical</p>
+        <p><strong>Amount Paid:</strong> RM 151.00</p>
+        <p><strong>Buyer Fees:</strong> RM 1.00</p>
+        <p><strong>Expected Payout:</strong> RM 150.00</p>
+        <p><strong>Status:</strong> Share Transaction</p>
+      </div>
+
+      <button class="delete-btn">Delete Transaction</button>
+    </div>
+  </div>
+</body>
+</html>

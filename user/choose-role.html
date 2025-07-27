@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Choose Your Role | BRUY</title>
+  <link rel="stylesheet" href="user-style.css" />
+</head>
+<body>
+
+  <div class="choose-role-container fade-in">
+    <div class="logo">
+      <img src="logo.png" alt="BRUY Logo" />
+    </div>
+
+    <h1>Choose Your Role</h1>
+    <p>Tell us who you are to proceed</p>
+
+    <div class="role-buttons">
+      <button onclick="chooseRole('buyer')">I'm a Buyer</button>
+      <button onclick="chooseRole('seller')">I'm a Seller</button>
+    </div>
+
+    <div class="credit">
+      BRUY Secure Payment System
+    </div>
+  </div>
+
+  <script>
+  function chooseRole(role) {
+    const container = document.querySelector('.choose-role-container');
+    container.classList.add('fade-out'); // trigger fade-out
+
+    setTimeout(() => {
+      window.location.href = role + "-dashboard.html";
+    }, 500); // wait for fade to complete
+  }
+</script>
+
+
+</body>
+</html>
+

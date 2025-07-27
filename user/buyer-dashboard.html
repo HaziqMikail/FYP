@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Buyer Dashboard | BRUY</title>
+  <link rel="stylesheet" href="user-style.css" />
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <img src="logo.png" alt="BRUY Logo" />
+    </div>
+    <ul>
+  <li class="active"><a href="buyer-dashboard.html">Dashboard</a></li>
+  <li><a href="buyer-join-transaction.html">Join Transaction</a></li>
+  <li><a href="buyer-my-purchases.html">My Purchases</a></li>
+  <li><a href="buyer-disputes.html">Disputes</a></li>
+  <li><a href="buyer-profile.html">Profile</a></li>
+  <li><a href="choose-role.html">Logout</a></li>
+</ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <h1>Welcome Buyer</h1>
+    <p>You can join a transaction using the ID and track your purchases securely.</p>
+    <div style="text-align: right; margin-bottom: 20px;">
+  <a href="seller-dashboard.html" class="switch-role-btn">Switch to Seller</a>
+</div>
+
+
+ <div class="card clickable-card" onclick="location.href='buyer-join-transaction.html'">
+  <h3>Start Buying</h3>
+  <p>Click here to join a transaction using a code from the seller.</p>
+</div>
+  </div>
+
+</body>
+</html>

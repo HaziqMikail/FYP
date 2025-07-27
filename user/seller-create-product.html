@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Product | BRUY</title>
+  <link rel="stylesheet" href="user-style.css" />
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <img src="logo.png" alt="BRUY Logo">
+    </div>
+    <ul>
+      <li><a href="seller-dashboard.html">Dashboard</a></li>
+      <li class="active"><a href="seller-create-product.html">Create Product</a></li>
+      <li><a href="seller-my-transactions.html">My Transactions</a></li>
+      <li><a href="seller-disputes.html">Disputes</a></li>
+      <li><a href="seller-profile.html">Profile</a></li>
+      <li><a href="choose-role.html">Logout</a></li>
+    </ul>
+  </div>
+
+  <!-- Main -->
+ <div class="main">
+  <h1>Create Product</h1>
+  <p>Select the type of product you want to sell:</p>
+
+  <div class="product-choice-container">
+    <div class="product-box" onclick="location.href='create-physical.html'">
+      <h2>📦 Physical Product</h2>
+      <p>For items like shoes, gadgets, collectibles, etc.</p>
+    </div>
+
+    <div class="product-box" onclick="location.href='create-digital.html'">
+      <h2>💾 Digital Product</h2>
+      <p>For accounts, codes, digital keys, or files.</p>
+    </div>
+  </div>
+</div>
+
+
+
+</body>
+</html>

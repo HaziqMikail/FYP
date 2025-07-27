@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Digital Product | BRUY</title>
+  <link rel="stylesheet" href="user-style.css" />
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="logo"><img src="logo.png" alt="BRUY Logo" /></div>
+  <ul>
+    <li><a href="seller-dashboard.html">Dashboard</a></li>
+    <li class="active"><a href="seller-create-product.html">Create Product</a></li>
+    <li><a href="seller-my-transactions.html">My Transactions</a></li>
+    <li><a href="seller-disputes.html">Disputes</a></li>
+    <li><a href="seller-profile.html">Profile</a></li>
+    <li><a href="choose-role.html">Logout</a></li>
+  </ul>
+</div>
+
+<div class="main">
+  <h1>Create Digital Product</h1>
+  <form action="add_product.php" method="POST" enctype="multipart/form-data">
+  <input type="hidden" name="type" value="digital">
+  <label>Product Name:</label><br>
+  <input type="text" name="name" required><br><br>
+
+  <label>Price (RM):</label><br>
+  <input type="number" name="price" step="0.01" required><br><br>
+
+  <label>Marketplace Link:</label><br>
+  <input type="url" name="marketplace_link"><br><br>
+
+  <label>Email (for digital):</label><br>
+  <input type="email" name="digital_email" required><br><br>
+
+  <label>Password (for digital):</label><br>
+  <input type="text" name="digital_password" required><br><br>
+
+  <label>Upload Image:</label><br>
+  <input type="file" name="image" accept="image/*"><br><br>
+
+  <button type="submit">Submit</button>
+</form>
+</div>
+
+</body>
+</html>
