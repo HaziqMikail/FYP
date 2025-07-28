@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   background: #f8f9fc;
 }
 
@@ -29,11 +29,10 @@ body {
 }
 
 .sidebar .logo img {
-  width: 90px; /* Bigger logo */
+  width: 90px;
   display: block;
-  margin: 0 auto 10px auto; /* Center horizontally */
+  margin: 0 auto 10px auto;
 }
-
 
 .sidebar .logo h3 {
   font-size: 16px;
@@ -45,9 +44,8 @@ body {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 20px; /* ⬅️ adds space between buttons */
+  gap: 20px;
 }
-
 
 .sidebar ul li a {
   color: white;
@@ -66,12 +64,11 @@ body {
   font-weight: bold;
 }
 
-
-
 /* Dashboard */
 .dashboard {
   flex: 1;
   padding: 30px;
+  overflow-y: auto;
 }
 
 header {
@@ -103,7 +100,7 @@ header input {
   background: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
 
@@ -123,4 +120,128 @@ header input {
   background: white;
   padding: 20px;
   border-radius: 8px;
+}
+
+/* User Table */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  margin-top: 30px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* stronger shadow */
+  border: 1px solid #ccc; /* added visible border */
+}
+
+.user-table th,
+.user-table td {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.user-table th {
+  background-color: #0c1f45;
+  color: white;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.user-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.user-table tr:hover {
+  background-color: #e8f0fe;
+}
+
+/* Search Form */
+.search-form {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.search-form input[type="text"] {
+  padding: 10px 14px;
+  border: 1px solid #0c1f45;
+  border-radius: 5px;
+  width: 250px;
+  outline: none;
+}
+
+.search-form button {
+  padding: 10px 16px;
+  background-color: #0c1f45;
+  color: white;
+  border: 1px solid #0c1f45;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.search-form button:hover {
+  background-color: #005b99;
+  border-color: #005b99;
+  transform: scale(1.03);
+}
+
+/* Transaction Table (inherits user-table) */
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  margin-top: 30px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.transaction-table th,
+.transaction-table td {
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.transaction-table th {
+  background-color: #0c1f45;
+  color: white;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.transaction-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.transaction-table tr:hover {
+  background-color: #e7f3ff;
+  transition: background 0.2s ease;
+}
+
+.transaction-table td.status {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.transaction-table td.status.pending {
+  color: #ff9800;
+}
+
+.transaction-table td.status.paid {
+  color: #2196f3;
+}
+
+.transaction-table td.status.completed {
+  color: #4caf50;
+}
+
+.transaction-table td.status.cancelled {
+  color: #f44336;
 }

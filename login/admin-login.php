@@ -1,5 +1,5 @@
 <?php
-include '../database/db.php';
+require_once '../database/db.php';
 
 session_start();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
