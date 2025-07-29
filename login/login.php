@@ -2,6 +2,7 @@
 include '../database/db.php';
 
 session_start();
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
@@ -17,9 +18,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($user = $result->fetch_assoc()) {
             if (password_verify($password, $user['password'])) {
+                $_SESSION['id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
-                header("Location: ../user/main.php");
+
+                // ✅ Redirect based on role
+                if ($role === 'buyer') {
+                    header("Location: ../user/buyer-dashboard.php");
+                } elseif ($role === 'seller') {
+                    header("Location: ../seller/seller-dashboard.php");
+                } else {
+                    $error = "Unknown role.";
+                }
                 exit();
             } else {
                 $error = "Incorrect password.";
