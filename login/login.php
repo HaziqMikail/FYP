@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 // ✅ Redirect based on role
                 if ($role === 'buyer') {
-                    header("Location: ../user/buyer-dashboard.php");
+                    header("Location: ../buyer/buyer-dashboard.php");
                 } elseif ($role === 'seller') {
                     header("Location: ../seller/seller-dashboard.php");
                 } else {

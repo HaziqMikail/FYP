@@ -13,8 +13,9 @@ if (isset($_POST['update_status'])) {
   $stmt->execute();
 }
 
-// Fetch all disputes
-$sql = "SELECT d.*, u.username FROM disputes d
+// Fetch all disputes with user info (including role)
+$sql = "SELECT d.*, u.username, u.email, u.role 
+        FROM disputes d
         JOIN users u ON d.user_id = u.id
         ORDER BY d.submitted_at DESC";
 $result = $conn->query($sql);
@@ -57,6 +58,7 @@ $disputes = $result->fetch_all(MYSQLI_ASSOC);
           <th>Transaction ID</th>
           <th>User</th>
           <th>Email</th>
+          <th>Role</th> <!-- ✅ New column for role -->
           <th>Reason</th>
           <th>Status</th>
           <th>Admin Notes</th>
@@ -72,6 +74,7 @@ $disputes = $result->fetch_all(MYSQLI_ASSOC);
               <td><?php echo htmlspecialchars($d['transaction_id']); ?></td>
               <td><?php echo htmlspecialchars($d['username']); ?></td>
               <td><?php echo htmlspecialchars($d['email']); ?></td>
+              <td><?php echo ucfirst($d['role']); ?></td> <!-- ✅ Display role -->
               <td><?php echo nl2br(htmlspecialchars($d['reason'])); ?></td>
               <td><?php echo ucfirst($d['status']); ?></td>
               <td><?php echo nl2br(htmlspecialchars($d['admin_notes'])); ?></td>
@@ -92,7 +95,7 @@ $disputes = $result->fetch_all(MYSQLI_ASSOC);
             </tr>
           <?php endforeach; ?>
         <?php else: ?>
-          <tr><td colspan="9">No disputes found.</td></tr>
+          <tr><td colspan="10">No disputes found.</td></tr>
         <?php endif; ?>
       </tbody>
     </table>
