@@ -29,3 +29,12 @@ CREATE TABLE disputes (
     FOREIGN KEY (transaction_id) REFERENCES transactions(transaction_id),  
     FOREIGN KEY (user_id) REFERENCES users(id)   
 );
+
+CREATE TABLE support_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    issue TEXT NOT NULL,
+    status ENUM('open', 'in_progress', 'resolved') DEFAULT 'open',
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    admin_notes TEXT DEFAULT NULL
+);

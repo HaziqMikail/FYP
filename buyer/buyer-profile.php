@@ -2,38 +2,51 @@
 session_start();
 require '../database/db.php';
 
+// If AJAX request (password change)
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['new_password'])) {
+    header('Content-Type: application/json');
+
+    if (!isset($_SESSION['id'])) {
+        echo json_encode(["success" => false, "message" => "Unauthorized."]);
+        exit();
+    }
+
+    $user_id = $_SESSION['id'];
+    $new_password     = $_POST['new_password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+
+    if ($new_password !== $confirm_password) {
+        echo json_encode(["success" => false, "message" => "❌ Passwords do not match."]);
+        exit();
+    }
+
+    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+    $stmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
+    $stmt->bind_param("si", $hashed_password, $user_id);
+
+    if ($stmt->execute()) {
+        echo json_encode(["success" => true, "message" => "✅ Password updated successfully."]);
+    } else {
+        echo json_encode(["success" => false, "message" => "❌ Failed to update password."]);
+    }
+    $stmt->close();
+    exit();
+}
+
+// -------- Normal page load (not AJAX) --------
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'buyer') {
     header("Location: ../login/login.php");
     exit();
 }
 
 $user_id = $_SESSION['id'];
-$message = "";
-
-// Fetch current profile info
 $stmt = $conn->prepare("SELECT username, email, created_at FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $stmt->bind_result($username, $email, $joined);
 $stmt->fetch();
 $stmt->close();
-
-// Handle password update
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
-
-    $stmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
-    $stmt->bind_param("si", $new_password, $user_id);
-
-    if ($stmt->execute()) {
-        $message = "✅ Password updated successfully.";
-    } else {
-        $message = "❌ Failed to update password.";
-    }
-    $stmt->close();
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,7 +60,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .form-group input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
     .submit-btn { background-color: #0c1f45; color: #fff; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; }
     .submit-btn:hover { background-color: #00bcd4; }
-    .message { color: green; margin-bottom: 20px; }
+
+    /* Banner */
+    .banner {
+      display: none;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 6px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .banner.success { background: #d4edda; color: #155724; }
+    .banner.error { background: #f8d7da; color: #721c24; }
   </style>
 </head>
 <body>
@@ -60,16 +84,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <li><a href="buyer-my-purchases.php">My Purchases</a></li>
     <li><a href="buyer-disputes.php">Disputes</a></li>
     <li class="active"><a href="buyer-profile.php">Profile</a></li>
-    <li><a href="../login/login.php">Logout</a></li>
+    <li><a href="../login/logout.php">Logout</a></li>
   </ul>
 </div>
 
 <div class="main-content fade-in">
   <h1 style="margin-bottom: 20px;">My Profile</h1>
   <div class="profile-card">
-    <?php if ($message): ?>
-      <p class="message"><?= $message ?></p>
-    <?php endif; ?>
 
     <p><strong>Username:</strong> <?= htmlspecialchars($username) ?></p>
     <p><strong>Email:</strong> <?= htmlspecialchars($email) ?></p>
@@ -79,14 +100,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <hr style="margin: 20px 0;">
 
     <h3>Change Password</h3>
-    <form method="POST">
+    <form id="passwordForm">
       <div class="form-group">
         <input type="password" name="new_password" placeholder="New Password" required>
       </div>
-      <button type="submit" class="submit-btn">Update Password</button>
+      <div class="form-group">
+        <input type="password" name="confirm_password" placeholder="Confirm New Password" required>
+      </div>
+      <button type="submit" class="submit-btn">Change Password</button> 
+      <div id="banner" class="banner"></div> <!-- 👈 Banner now under button -->
     </form>
   </div>
 </div>
+
+<script>
+document.getElementById("passwordForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  let formData = new FormData(this);
+
+  fetch("buyer-profile.php", {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    let banner = document.getElementById("banner");
+    banner.style.display = "block";
+    banner.textContent = data.message;
+
+    if (data.success) {
+      banner.className = "banner success";
+    } else {
+      banner.className = "banner error";
+    }
+
+    setTimeout(() => { banner.style.display = "none"; }, 4000);
+    this.reset();
+  })
+  .catch(() => {
+    alert("Error updating password.");
+  });
+});
+</script>
 
 </body>
 </html>

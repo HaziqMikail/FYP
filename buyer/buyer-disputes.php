@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <li><a href="buyer-my-purchases.php">My Purchases</a></li>
     <li class="active"><a href="buyer-disputes.php">Disputes</a></li>
     <li><a href="buyer-profile.php">Profile</a></li>
-    <li><a href="../login/login.php">Logout</a></li>
+    <li><a href="../login/logout.php">Logout</a></li>
   </ul>
 </div>
 

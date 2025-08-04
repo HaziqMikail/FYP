@@ -21,6 +21,20 @@ body {
   font-weight: 500;
 }
 
+.switch-btn {
+  background: #0c1f45;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+.switch-btn:hover {
+  background: #00bcd4;
+}
+
+
 /* Transaction Stats Section */
 .buyer-stats {
   display: grid;

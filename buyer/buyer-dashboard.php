@@ -39,7 +39,7 @@ if ($buyer_id) {
   $stmt->fetch();
   $stmt->close();
 
-  // Disputes related to buyer's purchases
+  // Disputes
   $stmt = $conn->prepare("SELECT COUNT(*) FROM disputes WHERE transaction_id IN (SELECT transaction_id FROM transactions WHERE buyer_id = ?)");
   $stmt->bind_param("i", $buyer_id);
   $stmt->execute();
@@ -59,9 +59,29 @@ if ($buyer_id) {
       margin-left: 260px;
       padding: 40px;
     }
+    .welcome-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
     .welcome {
       font-size: 22px;
-      margin-bottom: 20px;
+      font-weight: 500;
+      color: #0c1f45;
+    }
+    .switch-btn {
+      background: #0c1f45;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      transition: 0.3s ease;
+    }
+    .switch-btn:hover {
+      background: #00bcd4;
     }
     .stats-grid {
       display: grid;
@@ -70,19 +90,24 @@ if ($buyer_id) {
     }
     .stat-card {
       background: #fff;
-      padding: 20px;
+      padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       text-align: center;
+      transition: transform 0.2s;
+    }
+    .stat-card:hover {
+      transform: translateY(-5px);
     }
     .stat-card h2 {
-      font-size: 28px;
+      font-size: 32px;
       margin: 0;
       color: #0c1f45;
     }
     .stat-card p {
       font-size: 16px;
       color: #555;
+      margin-top: 8px;
     }
   </style>
 </head>
@@ -96,13 +121,16 @@ if ($buyer_id) {
       <li><a href="buyer-my-purchases.php">My Purchases</a></li>
       <li><a href="buyer-disputes.php">Disputes</a></li>
       <li><a href="buyer-profile.php">Profile</a></li>
-      <li><a href="../login/login.php">Logout</a></li>
+      <li><a href="../login/logout.php">Logout</a></li>
     </ul>
   </div>
 
   <!-- Main -->
   <div class="dashboard-container fade-in">
-    <div class="welcome">👋 Welcome, <strong><?= htmlspecialchars($username) ?></strong></div>
+    <div class="welcome-bar">
+      <div class="welcome">👋 Welcome, <strong><?= htmlspecialchars($username) ?></strong></div>
+      <a href="../login/logout.php" class="switch-btn">🔄 Switch Role</a>
+    </div>
 
     <div class="stats-grid">
       <div class="stat-card">

@@ -36,13 +36,15 @@ $disputes = $result->fetch_all(MYSQLI_ASSOC);
   <aside class="sidebar">
     <div class="logo">
       <img src="logo.png" alt="BRUY Logo">
-      <h3>Welcome, <?php echo $_SESSION['admin_name']; ?></h3>
+      <h3>Welcome, Admin</h3>
     </div>
     <ul>
       <li><a href="admin-dashboard.php">Dashboard</a></li>
-      <li><a href="admin-transactions.php">Transactions</a></li>
       <li><a href="admin-users.php">User List</a></li>
+      <li><a href="admin-transactions.php">Transactions</a></li>
+      <li><a href="admin-completed-transactions.php">Completed</a></li>
       <li class="active"><a href="admin-disputes.php">Dispute Center</a></li>
+      <li><a href="admin-support.php">Support Requests</a></li>
       <li><a href="admin-dashboard.php?logout=true">Logout</a></li>
     </ul>
   </aside>

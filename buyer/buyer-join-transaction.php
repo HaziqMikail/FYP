@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <li><a href="buyer-my-purchases.php">My Purchases</a></li>
     <li><a href="buyer-disputes.php">Disputes</a></li>
     <li><a href="buyer-profile.php">Profile</a></li>
-    <li><a href="../login/login.php">Logout</a></li>
+    <li><a href="../login/logout.php">Logout</a></li>
   </ul>
 </div>
 
@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="submit" class="btn pay-btn">💳 Pay Now</button>
       </form>
       <?php else: ?>
-        <p><em>This transaction is already <?= htmlspecialchars($transaction['status']) ?>.</em></p>
+        <p><em>This item is already <?= htmlspecialchars($transaction['status']) ?>.</em></p>
       <?php endif; ?>
     </div>
   <?php endif; ?>
