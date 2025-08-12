@@ -1,6 +1,6 @@
 # 💳 Bruy – Stripe Payment Integration (Test Mode)
 
-Bruy is a simple PHP-based web application developed as a **Final Year Project (FYP)**. It showcases how to integrate Stripe for online payments in **Test Mode**. The system is designed to help students understand secure payment processing concepts using Stripe before applying them in real-world applications or production environments.
+Bruy is a PHP-based web application developed as a Final Year Project (FYP). It demonstrates the integration of Stripe for secure online payments in Test Mode, addressing common scam issues in third-party marketplaces like Facebook and Instagram.
 
 ---
 
