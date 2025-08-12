@@ -8,45 +8,99 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'buyer') {
     exit();
 }
 
-$message = "";
-$transaction = null;
-$buyer_id = $_SESSION['id'];
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $transaction_id = $_POST['transaction_id'];
-
-    // Check if still pending
-    $stmt = $conn->prepare("SELECT * FROM transactions WHERE transaction_id = ? AND status = 'pending'");
-    $stmt->bind_param("s", $transaction_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows === 1) {
-        $transaction = $result->fetch_assoc();
-
-        // Update transaction -> paid + assign buyer
-        $update = $conn->prepare("UPDATE transactions 
-                                  SET status = 'paid', buyer_id = ? 
-                                  WHERE transaction_id = ?");
-        $update->bind_param("is", $buyer_id, $transaction_id);
-        $update->execute();
-        $update->close();
-
-        $message = "✅ Payment successful!";
-    } else {
-        $message = "❌ Transaction not found or already paid.";
-    }
-    $stmt->close();
+if (!isset($_POST['transaction_id'])) {
+    header("Location: buyer-join-transaction.php");
+    exit();
 }
+
+$transaction_id = $_POST['transaction_id'];
+
+// Fetch transaction details
+$stmt = $conn->prepare("SELECT * FROM transactions WHERE transaction_id = ? AND status = 'pending'");
+$stmt->bind_param("s", $transaction_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows !== 1) {
+    $stmt->close();
+    header("Location: buyer-join-transaction.php?error=Transaction+not+found+or+already+paid");
+    exit();
+}
+
+$transaction = $result->fetch_assoc();
+$stmt->close();
+
+// Calculate service charge (12% max RM12)
+$service_charge = min($transaction['amount'] * 0.12, 12);
+$total_to_pay = $transaction['amount'] + $service_charge;
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Payment Confirmation | BRUY</title>
-  <link rel="stylesheet" href="user-style.css">
+  <meta charset="UTF-8" />
+  <title>Payment | BRUY</title>
+  <link rel="stylesheet" href="user-style.css" />
+  <style>
+    .main {
+      max-width: 420px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 25px;
+      color: #0c1f45;
+    }
+    .amount-box {
+      font-size: 18px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    .amount-label {
+      font-weight: 600;
+      color: #0c1f45;
+    }
+    .payment-methods {
+      margin: 25px 0;
+      text-align: left;
+    }
+    .payment-methods label {
+      display: block;
+      margin-bottom: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      user-select: none;
+      font-size: 15px;
+      color: #0c1f45;
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+    button.btn {
+      width: 100%;
+      background-color: #0c1f45;
+      color: #fff;
+      padding: 14px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button.btn:hover {
+      background-color: #00bcd4;
+    }
+  </style>
 </head>
 <body>
+
 <div class="sidebar">
   <div class="logo"><img src="logo.png" alt="BRUY Logo"></div>
   <ul>
@@ -60,16 +114,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <div class="main fade-in">
-  <h1>Payment Confirmation</h1>
-  <div class="card">
-    <p><?= $message ?></p>
-    <?php if ($transaction): ?>
-      <h2><?= htmlspecialchars($transaction['item_name']) ?></h2>
-      <p><strong>Amount Paid:</strong> RM <?= number_format($transaction['amount'], 2) ?></p>
-      <p><strong>Transaction ID:</strong> <?= htmlspecialchars($transaction['transaction_id']) ?></p>
-    <?php endif; ?>
-    <a href="buyer-my-purchases.php"><button class="btn">View My Purchases</button></a>
+  <h1>Complete Your Payment</h1>
+  
+  <div class="amount-box">
+    <p><span class="amount-label">Original Amount:</span> RM <?= number_format($transaction['amount'], 2) ?></p>
+    <p><span class="amount-label">Service Charge (12% max RM12):</span> RM <?= number_format($service_charge, 2) ?></p>
+    <p><strong>Total to Pay:</strong> RM <?= number_format($total_to_pay, 2) ?></p>
   </div>
+
+  <form method="POST" action="payment-confirmation.php">
+    <input type="hidden" name="transaction_id" value="<?= htmlspecialchars($transaction['transaction_id']) ?>">
+    
+    <div class="payment-methods">
+      <label>
+        <input type="radio" name="payment_method" value="card" required>
+        Credit / Debit Card
+      </label>
+      <label>
+        <input type="radio" name="payment_method" value="bank_transfer" required>
+        Bank Transfer
+      </label>
+    </div>
+    
+    <button type="submit" class="btn">Confirm Payment</button>
+  </form>
 </div>
+
 </body>
 </html>

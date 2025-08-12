@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
     }
     input, textarea { 
-        width: 100%; 
+        width: 95%; 
         padding: 10px; 
         border: 1px solid #ccc; 
         border-radius: 8px; 

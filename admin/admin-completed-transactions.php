@@ -102,6 +102,7 @@ $result = $stmt->get_result();
       <li><a href="admin-users.php">User List</a></li>
       <li><a href="admin-transactions.php">Transactions</a></li>
       <li class="active"><a href="admin-completed-transactions.php">Completed</a></li>
+      <li><a href="admin-digital-verification.php">Digital Verification</a></li>
       <li><a href="admin-disputes.php">Dispute Center</a></li>
       <li><a href="admin-support.php">Support Requests</a></li>
       <li><a href="admin-completed-transactions.php?logout=true">Logout</a></li>
@@ -111,12 +112,8 @@ $result = $stmt->get_result();
   <!-- Dashboard Content -->
   <main class="dashboard">
     <header>
-      <h1>✅ Completed Transactions</h1>
+      <h1>Completed Transactions</h1>
     </header>
-
-    <section class="content-section">
-      <p>Here you can view all <strong>completed transactions</strong> and release payments to sellers.</p>
-    </section>
 
         <table>
         <thead>

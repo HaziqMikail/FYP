@@ -11,24 +11,27 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'buyer') {
 $transaction = null;
 $error = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['transaction_id'])) {
     $transaction_id = trim($_POST['transaction_id']);
 
-    // Validate ID format (must start with TXN)
     if (!preg_match("/^TXN[A-Z0-9]+$/", $transaction_id)) {
         $error = "❌ Invalid Transaction ID format.";
     } else {
-        // Check if transaction exists
         $stmt = $conn->prepare("SELECT t.*, u.username as seller_name 
-                                FROM transactions t 
-                                JOIN users u ON t.seller_id = u.id 
-                                WHERE t.transaction_id = ?");
+                                 FROM transactions t 
+                                 JOIN users u ON t.seller_id = u.id 
+                                 WHERE t.transaction_id = ?");
         $stmt->bind_param("s", $transaction_id);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows === 1) {
             $transaction = $result->fetch_assoc();
+
+            // Calculate service charge (12%, max RM12)
+            $service_charge = min($transaction['amount'] * 0.12, 12);
+            $transaction['service_charge'] = $service_charge;
+            $transaction['total_with_charge'] = $transaction['amount'] + $service_charge;
         } else {
             $error = "❌ Transaction not found.";
         }
@@ -43,53 +46,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <title>Join Transaction | BRUY</title>
   <link rel="stylesheet" href="user-style.css">
   <style>
-    .card {
-      background: #fff;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .form-inline {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .form-inline input {
-      flex: 1;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    .btn {
-      background: #0c1f45;
-      color: #fff;
-      padding: 10px 16px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .btn:hover {
-      background: #00bcd4;
-    }
-    .pay-btn {
-      margin-top: 15px;
-      width: 100%;
-    }
-    .error {
-      color: red;
-      margin-top: 10px;
-    }
-    .product-img {
-      max-width: 200px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
+    .card { background: #fff; padding: 20px; margin-top: 20px; border-radius: 12px; }
+    .form-inline { display: flex; gap: 10px; margin-top: 10px; }
+    .form-inline input { flex: 1; padding: 10px; }
+    .btn { background: #0c1f45; color: #fff; padding: 10px; border: none; border-radius: 8px; cursor: pointer; }
+    .btn:hover { background: #00bcd4; }
+    .error { color: red; }
+    .product-img { max-width: 200px; border-radius: 10px; }
   </style>
 </head>
 <body>
-
 <div class="sidebar">
   <div class="logo"><img src="logo.png" alt="BRUY Logo" /></div>
   <ul>
@@ -121,6 +87,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <img src="../<?= $transaction['image_path'] ?>" alt="Product" class="product-img">
       <?php endif; ?>
       <p><strong>Amount:</strong> RM <?= number_format($transaction['amount'], 2) ?></p>
+      <p><strong>Service Charge (12%, max RM12):</strong> RM <?= number_format($transaction['service_charge'], 2) ?></p>
+      <p><strong>Total to Pay:</strong> RM <?= number_format($transaction['total_with_charge'], 2) ?></p>
       <p><strong>Type:</strong> <?= ucfirst($transaction['product_type']) ?></p>
       <p><strong>Seller:</strong> <?= htmlspecialchars($transaction['seller_name']) ?></p>
       <p><strong>Status:</strong> <?= ucfirst($transaction['status']) ?></p>
@@ -128,7 +96,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <?php if ($transaction['status'] === 'pending'): ?>
       <form method="POST" action="pay-transaction.php">
         <input type="hidden" name="transaction_id" value="<?= $transaction['transaction_id'] ?>">
-        <button type="submit" class="btn pay-btn">💳 Pay Now</button>
+        <input type="hidden" name="amount" value="<?= $transaction['total_with_charge'] ?>">
+        <input type="hidden" name="original_amount" value="<?= $transaction['amount'] ?>">
+        <button type="submit" class="btn">💳 Pay Now</button>
       </form>
       <?php else: ?>
         <p><em>This item is already <?= htmlspecialchars($transaction['status']) ?>.</em></p>
@@ -136,6 +106,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   <?php endif; ?>
 </div>
-
 </body>
 </html>

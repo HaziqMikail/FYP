@@ -63,6 +63,7 @@ if ($result && $row = $result->fetch_assoc()) {
       <li><a href="admin-users.php">User List</a></li>
       <li><a href="admin-transactions.php">Transactions</a></li>
       <li><a href="admin-completed-transactions.php">Completed</a></li>
+      <li><a href="admin-digital-verification.php">Digital Verification</a></li>
       <li><a href="admin-disputes.php">Dispute Center</a></li>
       <li><a href="admin-support.php">Support Requests</a></li>
       <li><a href="admin-dashboard.php?logout=true">Logout</a></li>
