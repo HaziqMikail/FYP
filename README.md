@@ -24,6 +24,12 @@ Bruy is a simple PHP-based web application developed as a **Final Year Project (
 
 ---
 
+## 📒 Note
+
+- database structure is in mote.md file
+
+---
+
 ## ⚠️ Disclaimer
 
 - This project is intended for **educational/demo purposes only**.
